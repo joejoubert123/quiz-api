@@ -295,15 +295,22 @@ async function submitAnswerAsync(roomCode, playerName, answer) {
 }
 
 function start(instance) {
-  if (instance.players.length == 0) {
-    throw new InvalidOperationError("Not enough players yet");
+  // Check if there are less than two players
+  if (instance.players.length < 2) {
+    throw new InvalidOperationError(
+      "Not enough players yet. Minimum of two players required to start the quiz."
+    );
   }
+
+  // Reset necessary properties for each player
   instance.questionNumber = 1;
   instance.players.forEach((p) => {
     p.answer = undefined;
     p.rank = undefined;
     p.score = 0;
   });
+
+  // Update the quiz status
   instance.status = "showing-question";
 }
 
